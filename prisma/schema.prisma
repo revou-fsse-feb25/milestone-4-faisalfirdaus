@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum AccountType {
+  SAVINGS
+  CHECKING
+  BUSINESS
+  CREDIT
+}
+
+enum transactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+}
+
+
+// Users Table
+model User {
+  user_id   Int       @id @default(autoincrement()) // Primary key, auto-increment
+  name      String
+  email     String    @unique                      // Unique constraint on email
+  role      Role      @default(USER)
+  password  String
+  created_at DateTime @default(now())              // Default to current time
+  accounts  Account[] // One-to-many relation with Account
+}
+
+// Accounts Table
+model Account {
+  account_id Int       @id @default(autoincrement()) // Primary key, auto-increment
+  user_id    Int       // Foreign key to User
+  balance    Decimal   @default(0)                   // Default balance is 0
+  type       AccountType
+  created_at DateTime  @default(now())               // Default to current time
+  user       User      @relation(fields: [user_id], references: [user_id]) // One-to-many relation to User
+  transactions Transaction[] // One-to-many relation with Transactions
+}
+
+// Transactions Table
+model Transaction {
+  transaction_id Int       @id @default(autoincrement()) // Primary key, auto-increment
+  account_id     Int
+  amount         Decimal
+  type           transactionType @default(DEPOSIT)
+  transaction_at DateTime  @default(now()) // Default to current time
+  description    String?
+  account        Account   @relation(fields: [account_id], references: [account_id]) // Many-to-one relation to Account
+}
