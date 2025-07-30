@@ -5,7 +5,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  // Kenapa harus import ini?????
   imports: [JwtModule, ConfigModule],
   controllers: [UsersController],
   providers: [UsersService],

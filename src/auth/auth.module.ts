@@ -10,7 +10,6 @@ import { PassportModule } from '@nestjs/passport';
 @Module({
   imports: [
     UsersModule,
-    // Kenapa harus import config module?????
     ConfigModule,
     PassportModule.register({ defaultStrategy: 'jswt' }),
     JwtModule.registerAsync({

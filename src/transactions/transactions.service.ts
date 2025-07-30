@@ -22,7 +22,6 @@ export class TransactionsService {
     let updatedBalance = account.balance;
 
     if (transactionType === 'DEPOSIT') {
-      // Kenapa tidak tipe data dari prisma bentuk desimal??????
       updatedBalance = updatedBalance.add(amount);
     } else if (transactionType === 'WITHDRAWAL') {
       if (account.balance.lessThan(new Prisma.Decimal(amount))) {
@@ -58,7 +57,6 @@ export class TransactionsService {
   }
 
   // Get all transactions
-  // Cara dapat semua transaction dari 1 account saja????????
   async getAllTransactions(user) {
     const accounts = await this.prisma.account.findMany({
       where: { user_id: user.user_id },
@@ -80,7 +78,6 @@ export class TransactionsService {
       },
       orderBy: { transaction_at: 'desc' },
     });
-    // return await this.prisma.transaction.findMany();
   }
 
   // Get a single transaction by ID
@@ -96,23 +93,3 @@ export class TransactionsService {
     return transaction;
   }
 }
-
-// import { Injectable } from '@nestjs/common';
-// import { PrismaService } from 'src/prisma/prisma.service';
-
-// @Injectable()
-// export class TransactionsService {
-//   constructor(private readonly prisma: PrismaService) {}
-
-//   async createTransaction(): Promise<any> {
-//     return 'This action create a deposit transaction';
-//   }
-
-//   async getAllTransactions(): Promise<any> {
-//     return this.prisma.transaction.findMany();
-//   }
-
-//   async getTransactionById(): Promise<any> {
-//     return 'This action return a transaction';
-//   }
-// }

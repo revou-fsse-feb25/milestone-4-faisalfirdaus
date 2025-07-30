@@ -18,7 +18,6 @@ import { Account } from 'src/accounts/entities/account.entity';
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
-  // Untuk POST bisa pakai params tidak??????
   @Post('deposit')
   async createDeposit(@Body() body: CreateTransactionDto) {
     return this.transactionsService.createTransaction(body);
