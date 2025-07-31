@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UpdateUserDto } from './dto/req/update-user.dto';
@@ -12,7 +17,8 @@ import { RoleGuard } from 'src/auth/guards/user-role.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Roles(Role.USER, Role.ADMIN)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth('access-token')
   @Get('profile')
   @ApiOperation({ summary: 'Get the profile of the logged-in user' })
   @ApiResponse({
