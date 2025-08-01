@@ -8,7 +8,6 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterAuthDto } from './dto/req/register-auth.dto';
 import { LoginAuthrDto } from './dto/req/login-auth.dto';
-import { use } from 'passport';
 
 @Injectable()
 export class AuthService {
